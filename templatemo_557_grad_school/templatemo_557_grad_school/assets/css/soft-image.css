@@ -1,0 +1,6 @@
+.soft {
+    box-shadow: 10px 10px 5px #111;
+    -moz-box-shadow: 10px 10px 5px #111;
+    -webkit-box-shadow: 10px 10px 5px #111;
+    -khtml-box-shadow: 10px 10px 5px #111;
+}
