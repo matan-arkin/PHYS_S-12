@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 1</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 2</em><br> 2D Cutting & Design</h4>
+            <h2>Tutorial</h2>
+            <p>I chose the "User interface overview" Autodesk tutorial.<br><br>
+              Lesson 1 exposed me to the shockingly powerful plethora of features that Fusion 360 offers. I was especially amazeed at the ability to manipulate joints or hinges, simulating real movement - and this while generating an expected heat map of the product. Lesson 2 taught me about the various workspaces, some tools in the toolbar - especially relating to sketch and the canvas. Other notables: learned how to manipulate, open and export files. The "visual style" setting allows you to make certain components of your sketch transparent so you can "look inside" more complicated sketches. The marking menu and toolbox seem like a handy trick. The point about creating components first, then bodies, so you get better design history, is a subtle but important one. Direct mode (the mode that doesn't record history) seems almost useless.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/fusion-tut.png" alt="git" width="100%">
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Design</h2>
+            <p>Next, I set out to design my phone charger and electricity socket splitter. </p>
+          </div>
+        </div>
+      </div>
+      <dev class="row">
+        <div class="col-md-6">
+          <img src="assets/images/charger.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/elec-split.jpg" alt="git" width="100%">
+        </div>
+      </dev>
+      <br>
+      <div class="align-self-center">
+        <div class="left-content">
+          <p>The objects were simple enough to be achievable, but were still complex enough to challenge me and force me to use all the features of the caliper. I used the outside jaws for most measurements, including height, width and depth of both objects. I used the inside jaws for sockets and prong holes. The depth gauge came in handy for measuring socket and prong depth on the splitter:</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/caliper.jpg" alt="git" width="100%">
+      </div>
+      <br>
+      <div class="align-self-center">
+        <div class="left-content">
+          <p>In retrospect, these were also good choices because they stressed my understanding of Fusion 360. I had to sketch circles, rectangles and lines; I used the extrude feature, the chamfer and the fillet.<br><br>
+          But by far the most challenging aspect of Fusion 360 was the concept of constraints. When I started sketching the socket extrusion for my charger, I realized it wasn't a shape I could easily insert - I had to draw it out line by line. My first line was a diagonal, so I searched for some way to define a line by x and y values relative to a starting point. After two hours of searching, I concluded this seemingly simple feature wasn't available (some profanity may have been uttered at this). It was only a while later that I leared the unavailability of this feature was very much purposeful, and indicative of a different design paradigm than the one I was using - a paradigm involving constraints. Once I got the hang of this paradigm, I was able to generate sketches that would have otherwise been extremely difficult. For example, it was relatively straightforward to place the 3 socket prongs in relationship to each other, but to locate them <i>within</i> the socket, I would've been hardpressed to calculate all those coordinates. Instead, all I had to do was set the distance of one of the prongs from the edge of the socket circle, and all the others magically fell in to place:</p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/constraints.png" alt="git" width="100%">
+      </div>
+      <br><br><br>
+      <div class="align-self-center">
+        <div class="left-content">
+          <h2>Assembly and Animation</h2>
+          <p>I assembled the two components by "plugging in" and proceeded to animate them:</p>
+        </div>
+      </div>
+      <section class="section main-banner" id="top" data-section="section1" id="section1">
+        <video autoplay muted loop id="bg-video">
+          <source src="assets/images/plug-in.mp4" type="video/mp4"/>
+        </video>
+      </section>
+      <br><br>
+      <div class="align-self-center">
+        <div class="left-content">
+          <h2>Assembly and Animation</h2>
+          <p>The project files are available for <a href="assets/images/splitterv3.f3d" download>download</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
