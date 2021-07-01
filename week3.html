@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 3</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 3</em><br> Electronics and Tools</h4>
+            <h2>Simulation</h2>
+            <p>I started with a straightforward LED circuit on tinkercad. To find the correct resistor value, I started by looking up the LED component in our kit. I went to MPJA's website and found the component. It claimed a 2v drop and 20mA of current. Here is the calculation I made using Ohm's Law to find the resistor value that should go in series with this LED: </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/ohms_calc.jpg" alt="git" width="100%">
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>To be safe for the real circuit, I chose a value of 100 ohms and built the simulation in Tinkercad: </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/sim.png" alt="git" width="100%">
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Circuit</h2>
+            <p>Next, I used a red LED from our kit, the Adafruit Metro Express M0 and a 100 ohm resistor to build the real circuit. It was really bright! Probably a high current...</div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/led.jpg" alt="git" width="100%">
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I also measured the voltage drop on the LED. It turned out 2.07V, though I couldn't hold the camera and the prongs so you'll have to take that on faith :)</div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/voltmeter.jpg" alt="git" width="100%">
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Microphone</h2>
+            <p>I tried playing around with the microphone. I learned how to use the analogRead and analogReadResolution functions, trying 12-bit as well as 10-bit measurements. The log file and the code for 12-bit, adjusting for a 0.67V bias are available for download <a href="assets/images/mic_data_approx_half_with_sound_half_without.txt" download>here</a>. I was quiet for half the recording and then played a loud song for the other half. You can see the values jumping around in the second half of the log!</div>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Potentiometer</h2>
+            <p>Finally, I plugged in the potentiometer to my metro. I hooked up one end to gnd and the other to 3.3v, then the middle pin to A0. I used analogRead again to read from A0. Here is a picture of the setup:</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/poten.jpg" alt="git" width="100%">
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Here is a video of it working: </p>
+          </div>
+        </div>
+      </div>
+      <section class="section main-banner" id="top" data-section="section1" id="section1">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4 align-self-center">  
+            <video autoplay muted loop id="bg-video">
+              <source src="assets/images/poten.mp4" type="video/mp4"/>
+            </video>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
