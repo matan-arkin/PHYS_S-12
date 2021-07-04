@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 4</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 4</em><br> Rapid Prototyping</h4>
+            <h2>Background</h2>
+            <p>For this homework, I chose to create a possible final project using a servo motor, the Metro microcontroller and our AC unit. Let's take a step back. <br><br>
+            Our home has a central AC unit - and this is Israel we're talking about, so AC is on most of the year. The problem with a central AC unit is that it functions as "one size fits all." There are vents you could open or close in each room, but that involves climbing on a latter and is kind of a mess. A couple years back, we installed remote controlled vents for everyone so we no longer have to climb up to toggle them. Still, this leaves us with a pretty blunt on/off switch. My dad has this tendency to freeze the house so that we're all wearing coats while it's in the 90s outside. To keep my room at optimal temperatures, I have to toggle the AC vents on or off every few minutes. So my project does just that :) <br><br> </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/ac.jpg" alt="git" width="100%">
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part I - Moving the Motor</h2>
+            <p>To start off, I just wanted to get the motor to move. I found <a href="https://www.electronics-lab.com/project/using-sg90-servo-motor-arduino/">this</a> resource for driving servo motors with Arduino using a handy library - Servo.h. Wiring was: red to 5v, brown to gnd and yellow to D5. Once I got that working, I popped on the plastic extension and made sure the motor still moved as expected. Then I used the code from that "electronics-lab" website to move the motor with the extension back and for 180 degrees in loops.</div>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part II - Connecting to AC Remote Control</h2>
+            <p>I started by manually pressing the motor onto the remote control and got it to click the button using 180 degree loop code. I started out this way so I could let go in case the motor unexpectedly tried to jam its wing extension too deep into the button, causing strain. It turned out the opposite happened: it was missing the button entirely and so I had to adjust the angle of the wing a couple times. I also felt I needed to press down with a lot of force so that the motor wouldn't just lift itself away from the reomte control (instead of pressing into the button). I started with a single rubber band - this wasn't enough. I added tape, which I thought would be more rigid, but that also wasn't enough and messed with the motor's alignment such that it missed the button. I added 3 more rubber bands for more force and better alignment - it worked!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/servo_micro.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/servorc_side.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/servo_setup.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/servorc.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part III - Software</h2>
+            <p>I was still using the 180 degree loop at this point, so with the hardware in place, I focused my efforts on software. I tried pressing down from 40 to 10 degrees with 15microS of delay between each angle. I allocated 2.5 seconds to keep the button pressed, then I scanned back up to 40 degrees and stayed there for 3 minutes. All this repeated in loop(). The result was as expected: the servo caused the AC vent to open or close every 3 minutes. Unfortunately this turned out to be too hot. I decided 2 minutes off and 5 minutes on was a better balance. But before making the change, I realized it would cause some code duplication, so I factored out the button press into a "press()" function (and shortened press time because 2.5s was too long). The final, factored code works like a charm and is available for download <a href="assets/images/sketch_servo.ino" download>here</a>. Here's a video of the first button press. You can see the green/red LED on the AC transceiver toggle as the servo performs the press. 5 minutes would have been too long for a video, but I timed it and made sure I was getting subsequent presses as expected. The temperature is perfect and other members of the family are already clammering for their own unit. Lucky I have another servo :)</p>
+        </div>
+      </div>
+      <section class="section main-banner" id="top">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4 align-self-center">  
+            <video autoplay muted loop id="bg-video">
+              <source src="assets/images/servoac.mp4" type="video/mp4"/>
+            </video>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </section>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <br><br><br>
+            <h2>Part IV - Diving into Servo.h</h2>
+            <p>I wasn't content blindly using a library, so I read and understood its main write() function. It appears to be a simple wrapper for another function, containing error checking and a mapping from degrees to pulse width (in microS). From this I infer that angle is determined by pulse width in this servo motor. </p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/servo_write.png" alt="git" width="100%">
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <br><br>
+            <p>The writeMicroseconds() function which write() calls contains more error checking and then a final conversion from microS to "ticks" (cpu cycles) before writing that value. </p>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/servo_writeMicroseconds.png" alt="git" width="100%">
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <br><br><br>
+            <h2>Potentiometer</h2>
+            <p>I didn't have much use for a potentiometer, so this is the description/code/images from last week's bonus potentiometer project: I plugged in the potentiometer to my metro. I hooked up one end to gnd and the other to 3.3v, then the middle pin to A0. I used analogRead to read from A0. Here is a picture of the setup:</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/poten.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <br><br>
+            <p>Here is a video of it working: </p>
+          </div>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-7">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/poten.mp4" type="video/mp4"/>
+              </video>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
