@@ -169,53 +169,71 @@ void loop() {
         <div class="col-md-12 align-self-center">
           <div class="left-content">
             <br><br><br>
-            <h2>Version 4 - </h2>
-            <p>I wasn't content blindly using a library, so I read and understood its main write() function. It appears to be a simple wrapper for another function, containing error checking and a mapping from degrees to pulse width (in microS). From this I infer that angle is determined by pulse width in this servo motor. </p>
+            <h2>Version 4 - Basic Functionality</h2>
+            <p>After the last fix, and using the calculations from the note card in the last section to map readAnalog values to a scale of -100 to 100, I got some pretty good results. When things were quiet, I saw values around -16 and tapping the microphone made a clear impact.</p>
         </div>
       </div>
       <div class="col-md-12">
-        <img src="assets/images/servo_write.png" alt="git" width="100%">
+        <img src="assets/images/hw5_v4.png" alt="git" width="100%">
       </div>
-      <br><br>
+      <br><br><br>
+
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
-            <br><br>
-            <p>The writeMicroseconds() function which write() calls contains more error checking and then a final conversion from microS to "ticks" (cpu cycles) before writing that value. </p>
+            <h2>Version 5 - Fixing Power Source Issues</h2>
+            <p>I still wanted to understand why I wasn't seeing a small positive number like I was expecting. I tried measuring the 3.3V power voltage and noticed it was actually 3.4. Adjusting the calculations to 3.4 yielded a slightly different range: (171, 232) and with that in my map function I saw what I was expecting. My final result works like a "PTT." You push the button to talk and an LED indicates that your voice is being recorded. Here's the code for it:</p>
         </div>
       </div>
-      <div class="col-md-12">
-        <img src="assets/images/servo_writeMicroseconds.png" alt="git" width="100%">
-      </div>
+      <div class="row">
+        <div class="col-md-6 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">const int ledPin = 13;
+const int buttonPin = 12;
+const int micPin = A10;
+int aud_amp = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(micPin, INPUT);
+  analogReadResolution(10);
+}
+
+void loop() {
+  
+  if (digitalRead(buttonPin) == HIGH) {
+    digitalWrite(ledPin, LOW);
+  }
+  else {
+    aud_amp = analogRead(micPin);
+    Serial.println(map(aud_amp, 171, 232, -100, 100));
+    digitalWrite(ledPin, HIGH);
+  }
+}                     
+            </pre>
+          </div>
+          <div class="col-md-6 align-self-center">
+            <img src="assets/images/hw5_v5.png" alt="git" width="100%">
+          </div>
+        </div>
+      <br><br><br>
 
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
             <br><br><br>
-            <h2>Potentiometer</h2>
-            <p>I didn't have much use for a potentiometer, so this is the description/code/images from last week's bonus potentiometer project: I plugged in the potentiometer to my metro. I hooked up one end to gnd and the other to 3.3v, then the middle pin to A0. I used analogRead to read from A0. Here is a picture of the setup:</p>
+            <h2>Final Video: Push to Talk, Tapping on Microphone</h2>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <img src="assets/images/poten.jpg" alt="git" width="100%">
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 align-self-center">
-          <div class="left-content">
-            <br><br>
-            <p>Here is a video of it working: </p>
-          </div>
-        </div>
-        <div class="col-md-5"></div>
-        <div class="col-md-7">
+      <div class="col-md-4"></div>
+        <div class="col-md-6">
+          <br>
           <section>
               <video autoplay muted loop id="bg-video">
-                <source src="assets/images/poten.mp4" type="video/mp4"/>
+                <source src="assets/images/hw5_v5.mp4" type="video/mp4"/>
               </video>
-            </div>
           </section>
         </div>
       </div>
