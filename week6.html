@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 6</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 6</em><br> 3D Design & Printing</h4>
+            <h2>Door Knob Cover - Background</h2>
+            <p>The door to my room has a metalic round knob. </p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_background1.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_background2.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_background3.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_background4.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>When someone opens the door, nothing stands in its way - causing an agressive <i>bang</i>. If left untouched, it proceeds to swing back near its closed position. Very annoying. Over the years, my wall has started to look like this: </p></div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/hw6_background5.jpg" alt="git" width="100%">
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Knob Catcher - Version 1</h2>
+            <p>As a solution, I propose a 3D-printed "knob catcher." I was inspired by the discussion in class about flexible filament. After some research, I found the <a href="https://www.amazon.com/eSUN-eLastic-Flexible-Printer-Filament/dp/B01A4WP4AY/ref=sr_1_1?s=industrial&ie=UTF8&qid=1490019187&sr=1-1&keywords=esun+elastic">eSUN Elastic</a>, which I would use for this design if I could actually print it (because this isn't essential for my final project and I live outside the US, probably we won't actually print this). <br><br>
+            I started by choosing and measuring (with my caliper), all the parameters I was going to need. I measured the diameter of the knob (and divided by two to get the radius) - at its narrowest and widest points; I measured the length of the knob and I chose 4mm as the knob catcher thickness:</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <img src="assets/images/hw6_v1_params.png" alt="git" width="100%">
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>My design plan was: create two sketches on parallel planes with a distance between them equal to (10% more than) the length of the knob. Each sketch contained a pair of circles that create a ring with thickness equal to my defined "nob_cover_thickness." I would then "loft" the two rings. Unfortunately, after a fair bit of trying, I found that the loft feature could't use only the surface of the ring (the area in between the circles), but had to use the entire circle. I naively decided to extrude a cut down that meets the lower plane with the narrower ring. At first, it looked great!</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 align-self-center">
+          <img src="assets/images/hw6_v1.png" alt="git" width="100%">
+        </div>  
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Alas, when I exported to PrusaSlicer and tried slicing, I ran into trouble: </p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <img src="assets/images/hw6_v1_problem1.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I couldn't understand why I was getting this mysterious "gap" between my cover's base and loft. I tried tweaking the SDL export settings, I tried installing Meshmaker so that I could export directly - nothing worked. I went back to Fusion 360 and examined the point of connection where I had seen the gap earlier, and zoomed <i>way</i> in. Seems perfectly normal! </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <img src="assets/images/hw6_v1_debug_closeup.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>As chance would have it, while I was wandering around my Fusion 360 sketch a while later, I happened to highlight this section: </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <img src="assets/images/hw6_v1_problem2.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>It hit me. By giving up on the loft feature too soon and going with a regular cut, the cut was made straight down. With the difference in ring diameter between the upper ring and the lower ring, this probably caused the thickness of the cover to decrease as the cut went down, eventually reaching 0 and creating the gap we saw.</p>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Knob Catcher - Version 2</h2>
+            <p>I found a way to achieve the constant thickness, exapanding ring that I was looking for using two lofts instead of a loft and a cut:</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v2.png" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v2_2.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Knob Catcher - Version 3</h2>
+            <p>I followed up by adding a base, exporting the STL and slicing.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3.png" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3_2.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3_3.png" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3_4.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3_5.png" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_v3_6.png" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I decided that, with such light angles, support would not be necessary for the 3D printer. The exported <a href="assets/code/hw6/nob_cover.f3d" download>nob_cover.f3d</a>, <a href="assets/code/hw6/nob_cover.stl" download>nob_cover.stl</a> and <a href="assets/code/hw6/nob_cover.gcode" download>nob_cover.gcode</a> files are available for download.</p>
+          </div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part 2 - 3D Scan</h2>
+            <p>I tried my best despite not having access to LIDAR sensors or a new iPhone. I searched through a few of the suggested apps, sites and software from the assignment page until I landed on Qlone. It was the only free app that allowed me to scan 3D images without a LIDAR sensor. It did, however, charge $20 to export to STL, so I stuck with screenshots. This proved not a huge loss as the scans came out quite bad :) <br><br>
+            I thought it would be fun to compare this scan to the same 2D picture and 3D Fusion design I made in HW2 - the USB charger. I tried multiple locations and lighting setups, but the results still consistently turned out like this:</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_scan1.PNG" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_scan2.PNG" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw6_scan3.PNG" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw6_scan4.PNG" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Here is the picture and the 3D design from HW2 for comparison:<br><br>
+          </div>
+        </div>
+      </div>
+      <dev class="row">
+        <div class="col-md-6">
+          <img src="assets/images/charger.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw2_charger_fusion.png" alt="git" width="100%">
+        </div>
+    </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
