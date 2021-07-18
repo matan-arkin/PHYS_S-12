@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 8</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 8</em><br> Electronic Output Devices</h4>
+            <h2>Background</h2>
+            <p>My goal for this homework was to transform volume information from a microphone to an LED animation: the higher the volume the more of the LEDs light up. This is reminiscent of my final project where directionality (instead of volume) will influence which LEDs light up.</p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version I - Timer-Triggered LED Strip</h2>
+            <p>For version I, I wanted to explore this new output device - the LED strip - and trigger it <i>without</i> use of the delay() function. To get started, I attached the LED strip to my Metro using a 100ohm series resistor for the Din/A0 pin like so:</p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw8_v1_2.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Next, I used the millis() function to color LEDs every 400ms. My end-goal was to light up between 2 and 10 of the center LEDs depending on volume, so I created the interface for this, complete with a sample_volume() function that returns a number between 0 and 5 (half the number of LEDs to color). But for this first version, I left the volume_sample function largely empty and substituted a call to random(0, 6) for its logic. Following each "sample," I performed some arithmetic and colored the LEDs as appropriate. Here's that code:</p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+
+#define PIN         6 
+#define NUMPIXELS   10 
+#define SAMPLEDELAY 400 // Time (in milliseconds) to pause between audio samples
+
+Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+unsigned long prev_sample = 0;   // Time (in milliseconds) when last sample was taken
+
+
+void setup() {
+  strip.begin();            // INITIALIZE NeoPixel strip object
+  strip.setBrightness(10);  // Set BRIGHTNESS low to reduce draw (max = 255)
+  strip.clear();            // Set all pixel colors to 'off'
+  strip.show();             // Turn OFF all pixels ASAP
+}
+
+// volume is 0 (silence), or 1 to 5
+unsigned int sample_volume() {
+  return random(0, 6);
+}
+
+void loop() {
+  unsigned long cur_sample = millis();
+
+  if (cur_sample - prev_sample > SAMPLEDELAY) {
+    prev_sample = millis();
+    unsigned int volume = sample_volume();
+    strip.clear();
+    if (volume) {
+      strip.fill(strip.Color(150, 0, 0), 5 - volume, volume * 2); // color "volume" number of center LEDs red      
+    }
+    strip.show();   // Send the updated pixel colors to the hardware.
+  }
+}                    
+          </pre>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>The result was a random, even number of center-LEDs being colored red every 400ms:</p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw8_v1_1.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version II - Microphone Sampling</h2>
+            <p>Needed a microphone. Added a microphone!</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw8_v2_1.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br> 
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>To get the volume-dependent lighting I wanted, I had to sample audio windows of a certain length and simplify the output into a 0-5 scale. Too short of a sampling window and I might not catch extreme fluctuations that would otherwise drive my peak_to_peak. But too long and delay might be noticable from the user's perspective. After some experimentation, I chose 100ms. As per the value mapping, I know from my calibration in homework 7 that the sound range for normal volumes of music is about 17-40 peak to peak, using 12-bit resolution. I chose to attenuate a small portion of the bottom end of that range so that silence is always interpreted as a volume of 0 (and therefore no LED coloring). Similarly, I attenuated the top of the range to ensure no values higher than 5 are returned. I plugged all this logic into the sample_volume() function I created in Version I:</p></div>
+        </div>
+      </div>
+      <div class="col-md-12 align-self-center">
+        <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+
+#define PIN         6 
+#define NUMPIXELS   10 
+#define SAMPLEDELAY 100 // Time (in milliseconds) to pause between audio samples
+
+Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+unsigned long prev_sample = 0;   // Time (in milliseconds) when last sample was taken
+unsigned int signalMax = 0;
+unsigned int signalMin = 1024;
+
+
+void setup() {
+  Serial.begin(9600);
+  analogReadResolution(12);
+  strip.begin();            // INITIALIZE NeoPixel strip object
+  strip.setBrightness(10);  // Set BRIGHTNESS low to reduce draw (max = 255)
+  strip.clear();            // Set all pixel colors to 'off'
+  strip.show();             // Turn OFF all pixels ASAP
+}
+
+// volume is 0 (silence), or 1 to 5
+unsigned int sample_volume() {
+  unsigned int peak_to_peak = signalMax - signalMin;
+  const unsigned int min = 20;
+  const unsigned int max = 35;
+  Serial.println(peak_to_peak);
+  if (peak_to_peak &lt; min) {
+    return 0;
+  }
+  else if (peak_to_peak &gt; max) {
+    return 5;
+  }
+  else {
+    return map(peak_to_peak, min, max, 1, 5);
+  }
+}
+
+void loop() {
+  unsigned long cur_sample = millis();
+
+  if (cur_sample - prev_sample &gt; SAMPLEDELAY) {
+    // volume is 0 (silence), or 1 to 5
+    unsigned int volume = sample_volume();
+
+    strip.clear();
+    if (volume) {
+      strip.fill(strip.Color(150, 0, 0), 5 - volume, volume * 2); // color "volume" number of center LEDs red      
+    }
+    strip.show();   // Send the updated pixel colors to the hardware.
+
+    // set up for next sample
+    prev_sample = millis();
+    signalMax = 0;
+    signalMin = 1024;
+  }
+
+  unsigned int sample = analogRead(A0);
+  if (sample &lt; 1024) {      // toss out spurious readings
+    if (sample &gt; signalMax) {
+      signalMax = sample;   // save just the max levels
+    }
+    else if (sample &lt; signalMin) {
+      signalMin = sample;   // save just the min levels
+    }
+  }
+}               
+          </pre>
+        </div>
+      </div>
+      <br><br><br>
+      
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Here's a demonstration of me tapping on the table to demonstrate silence / noise, then turning on music to demonstrate the volume-change-triggered "LED dance" while Serial Monitor runs in the background.</p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw8_v2_2.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br><br>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+</body>
+</html>
