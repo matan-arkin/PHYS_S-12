@@ -1,14 +1,17 @@
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>PHYSCI 70: Introduction to Digital Fabrication</title>
+	
+<title>PHYS S-12: Introduction to Digital Fabrication</title>
 </head>
 
 <body>
-	<button id="turn-on" name="turnon">Turn On </button>
-	<button id="turn-off" name="turnoff">Turn Off </button>
+
+	 <button id="turn-on" name="turnon">Turn On</button>
+	 <button id="turn-off" name="turnoff">Turn Off</button>
 
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-app.js"></script>
@@ -19,7 +22,7 @@
 
 	<script>
 	// Your web app's Firebase configuration
-	var firebaseConfig = {
+	const firebaseConfig = {
         apiKey: "AIzaSyCSU4eqfmjl8ct1_muq15jY_HvgewOl5hc",
         authDomain: "acontroller-aadb8.firebaseapp.com",
         databaseURL: "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app",
@@ -27,9 +30,8 @@
         storageBucket: "acontroller-aadb8.appspot.com",
         messagingSenderId: "294278776633",
         appId: "1:294278776633:web:44f25057286ddcf7658ae8"
-	};
-	
-	// Initialize Firebase
+    };
+		// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
 
 	// Get a database reference to our blog
@@ -52,6 +54,6 @@
 			"LED_STATUS": "OFF"
 		});
 	}	
-    </script>
+</script>
 
 </body>
