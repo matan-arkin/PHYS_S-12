@@ -69,135 +69,25 @@ https://templatemo.com/tm-557-grad-school
         <div class="col-md-12 align-self-center">
           <div class="left-content">
             <h4><em>Week 9</em><br> Networking / IoT</h4>
-            <h2>Background</h2>
-            <p>My goal for this homework was to transform volume information from a microphone to an LED animation: the higher the volume the more of the LEDs light up. This is reminiscent of my final project where directionality (instead of volume) will influence which LEDs light up.</p></div>
+            <h2><i>AC</i>ontrol</h2>
+            <p>Welcome to this week's project - <i>AC</i>ontrol! My timer-based Servo-controlled AC remote from homework 4 is making a comeback. This time we're connecting it to the internet and calling it <i>AC</i>ontrol. The idea is for me to be able to turn on the AC on my way home so the room is nice and cool upon arrival. <i>AC</i>ontrol could also be used to turn off a forgotten AC.</p></div>
         </div>
       </div>
       <br><br><br>
-      
-      <!-- The core Firebase JS SDK is always required and must be listed first -->
-      <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
-
-      <script src="https://www.gstatic.com/firebasejs/7.13.2/firebase-database.js"></script>
-
-      <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-          apiKey: "AIzaSyCSU4eqfmjl8ct1_muq15jY_HvgewOl5hc",
-          authDomain: "acontroller-aadb8.firebaseapp.com",
-          databaseURL: "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app",
-          projectId: "acontroller-aadb8",
-          storageBucket: "acontroller-aadb8.appspot.com",
-          messagingSenderId: "294278776633",
-          appId: "1:294278776633:web:44f25057286ddcf7658ae8"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Get a database reference to our blog
-        var ref = firebase.database().ref("/");
-
-        // make the buttons call the function below 
-        document.getElementById('turn-on').addEventListener('click', turnOn, false);
-        document.getElementById('turn-off').addEventListener('click', turnOff, false);
-
-        function turnOn(){
-          console.log("turning on");
-          ref.update({
-            "LED_STATUS": "ON"
-          });
-        }
-
-        function turnOff(){
-          console.log("turning off");
-          ref.update({
-            "LED_STATUS": "OFF"
-          });
-        }	
-      </script>
-      
-      <div class="row">
-        <div class="col-md-2"></div>
-        <button class="col-md-2" id="turn-on" name="turnon">Turn On </button>
-        <div class="col-md-2"></div>
-        <div class="col-md-2"></div>
-        <button class="col-md-2" id="turn-off" name="turnoff">Turn Off </button>
-        <div class="col-md-2"></div>
-      </div>
 
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
-            <h2>Version I - Timer-Triggered LED Strip</h2>
-            <p>For version I, I wanted to explore this new output device - the LED strip - and trigger it <i>without</i> use of the delay() function. To get started, I attached the LED strip to my Metro using a 100ohm series resistor for the Din/A0 pin like so:</p></div>
+            <h2>Version 1 - Firebase LED</h2>
+            <p>To kick things off, I followed the <a href="https://nathanmelenbrink.github.io/intro-dig-fab/09_networking/huzzah1b.html">Firebase tutorial</a> for toggling an LED remotely. Here's how it works: Firebase maintains a database for me where I store a single String value: "LED_STATUS." Through the Firebases GUI, I can directly manipulate this String to be either "ON" or "OFF." Meanwhile, my ESP32 is connected to the internet via my home wifi. Every 1 second, it polls the server and asks for the current LED_STATUS. Based on the value it gets back, it either lights up the built in LED (at pin 13) or turns it off. So far so good.</p></div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <img src="assets/images/hw8_v1_2.jpg" alt="git" width="100%">
-        </div>
-      </div>
-      <br><br>
 
-      <div class="row">
-        <div class="col-md-12 align-self-center">
-          <div class="left-content">
-            <p>Next, I used the millis() function to color LEDs every 400ms. My end-goal was to light up between 2 and 10 of the center LEDs depending on volume, so I created the interface for this, complete with a sample_volume() function that returns a number between 0 and 5 (half the number of LEDs to color). But for this first version, I left the volume_sample function largely empty and substituted a call to random(0, 6) for its logic. Following each "sample," I performed some arithmetic and colored the LEDs as appropriate. Here's that code:</p></div>
-        </div>
-        <div class="col-md-12 align-self-center">
-          <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
-
-#include &lt;Adafruit_NeoPixel.h&gt;
-
-#define PIN         6 
-#define NUMPIXELS   10 
-#define SAMPLEDELAY 400 // Time (in milliseconds) to pause between audio samples
-
-Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-unsigned long prev_sample = 0;   // Time (in milliseconds) when last sample was taken
-
-
-void setup() {
-  strip.begin();            // INITIALIZE NeoPixel strip object
-  strip.setBrightness(10);  // Set BRIGHTNESS low to reduce draw (max = 255)
-  strip.clear();            // Set all pixel colors to 'off'
-  strip.show();             // Turn OFF all pixels ASAP
-}
-
-// volume is 0 (silence), or 1 to 5
-unsigned int sample_volume() {
-  return random(0, 6);
-}
-
-void loop() {
-  unsigned long cur_sample = millis();
-
-  if (cur_sample - prev_sample > SAMPLEDELAY) {
-    prev_sample = millis();
-    unsigned int volume = sample_volume();
-    strip.clear();
-    if (volume) {
-      strip.fill(strip.Color(150, 0, 0), 5 - volume, volume * 2); // color "volume" number of center LEDs red      
-    }
-    strip.show();   // Send the updated pixel colors to the hardware.
-  }
-}                    
-          </pre>
-        </div>
-      </div>
-      <br><br>
-
-      <div class="row">
-        <div class="col-md-12 align-self-center">
-          <div class="left-content">
-            <p>The result was a random, even number of center-LEDs being colored red every 400ms:</p></div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <section>
               <video autoplay muted loop id="bg-video">
-                <source src="assets/images/hw8_v1_1.mp4" type="video/mp4"/>
+                <source src="assets/images/hw9_p1.mp4" type="video/mp4"/>
               </video>
           </section>
         </div>
@@ -207,13 +97,20 @@ void loop() {
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
-            <h2>Version II - Microphone Sampling</h2>
-            <p>Needed a microphone. Added a microphone!</p>
+            <h2>Version 2 - Buttons, GUI</h2>
+            <p>The next step was to add buttons for easier access. The HTML buttons are mapped to functions that trigger an HTTP POST message which travel over the intenet and instruct my database to set LED_STATUS either "ON" or "OFF." This proved quite difficult... I used the code from the <a href="https://nathanmelenbrink.github.io/intro-dig-fab/09_networking/huzzah1b.html">tutorial</a> and added in the config variable auto-generated by Firebase. Initially, I tried embedding this into my usual format for html pages, but that didn't work. I thought perhaps my format was getting in the way of something, so I tried moving things around and when that didn't work, dedicated a page just for the buttons, matching the template code from the tutorial and even tried "inspecting source" for the live example and using that code. Still nothing. Next, I recalled the tutorial instructed to push the code to GitHub, so I tried pushing and using that as opposed to the local version. Didn't work. <br><br>
+            I returned to the Firebase site and tried copying "CDN" and "Config" options. I tried adding 'class = "no-js"' to my html element, as I saw that in the tutorial. Double checked my read/write rules were set to "true." <br><br>
+            A little desperate, I used my phone to click the button and used a VPN on my computer, thinking perhaps a firewall rule was blocking the packet. A while later I was paging through the tutorial and reread the boilerplate code that I had copied. That's when I remembered Nathan's repeated warnings about version number from class that I had neglected, at my peril... That did it! </p></div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-md-12">
-          <img src="assets/images/hw8_v2_1.jpg" alt="git" width="100%">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw9_v2.mp4" type="video/mp4"/>
+              </video>
+          </section>
         </div>
       </div>
       <br><br> 
@@ -221,100 +118,176 @@ void loop() {
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
-            <p>To get the volume-dependent lighting I wanted, I had to sample audio windows of a certain length and simplify the output into a 0-5 scale. Too short of a sampling window and I might not catch extreme fluctuations that would otherwise drive my peak_to_peak. But too long and delay might be noticable from the user's perspective. After some experimentation, I chose 100ms. As per the value mapping, I know from my calibration in homework 7 that the sound range for normal volumes of music is about 17-40 peak to peak, using 12-bit resolution. I chose to clip a small portion of the bottom end of that range so that silence is always interpreted as a volume of 0 (and therefore no LED coloring). Similarly, I clipped the top of the range to ensure no values higher than 5 are returned. I plugged all this logic into the sample_volume() function I created in Version I:</p></div>
-        </div>
-      </div>
-      <div class="col-md-12 align-self-center">
-        <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
-
-#include &lt;Adafruit_NeoPixel.h&gt;
-
-#define PIN         6 
-#define NUMPIXELS   10 
-#define SAMPLEDELAY 100 // Time (in milliseconds) to pause between audio samples
-
-Adafruit_NeoPixel strip(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-unsigned long prev_sample = 0;   // Time (in milliseconds) when last sample was taken
-unsigned int signalMax = 0;
-unsigned int signalMin = 1024;
-
-
-void setup() {
-  Serial.begin(9600);
-  analogReadResolution(12);
-  strip.begin();            // INITIALIZE NeoPixel strip object
-  strip.setBrightness(10);  // Set BRIGHTNESS low to reduce draw (max = 255)
-  strip.clear();            // Set all pixel colors to 'off'
-  strip.show();             // Turn OFF all pixels ASAP
-}
-
-// volume is 0 (silence), or 1 to 5
-unsigned int sample_volume() {
-  unsigned int peak_to_peak = signalMax - signalMin;
-  const unsigned int min = 20;
-  const unsigned int max = 35;
-  Serial.println(peak_to_peak);
-  if (peak_to_peak &lt; min) {
-    return 0;
-  }
-  else if (peak_to_peak &gt; max) {
-    return 5;
-  }
-  else {
-    return map(peak_to_peak, min, max, 1, 5);
-  }
-}
-
-void loop() {
-  unsigned long cur_sample = millis();
-
-  if (cur_sample - prev_sample &gt; SAMPLEDELAY) {
-    // volume is 0 (silence), or 1 to 5
-    unsigned int volume = sample_volume();
-
-    strip.clear();
-    if (volume) {
-      strip.fill(strip.Color(150, 0, 0), 5 - volume, volume * 2); // color "volume" number of center LEDs red      
-    }
-    strip.show();   // Send the updated pixel colors to the hardware.
-
-    // set up for next sample
-    prev_sample = millis();
-    signalMax = 0;
-    signalMin = 1024;
-  }
-
-  unsigned int sample = analogRead(A0);
-  if (sample &lt; 1024) {      // toss out spurious readings
-    if (sample &gt; signalMax) {
-      signalMax = sample;   // save just the max levels
-    }
-    else if (sample &lt; signalMin) {
-      signalMin = sample;   // save just the min levels
-    }
-  }
-}               
-          </pre>
+            <p>You can try out the buttons for yourself <a href="week9_web_interface.html" target="_blank">here</a>, though they are no longer connected to anything :) And the ESP32 code for this, which is identical to Version 1's code, is available for download: <a href="assets/code/hw9/hw9_p1/hw9_p1.ino" download>hw9_p1.ino</a>. 
+            </p></div>
         </div>
       </div>
       <br><br><br>
-      
+
       <div class="row">
         <div class="col-md-12 align-self-center">
           <div class="left-content">
-            <p>Here's a demonstration of me tapping on the table to demonstrate silence / noise, then turning on music to demonstrate the volume-change-triggered "LED dance" while Serial Monitor runs in the background.</p></div>
+            <h2>Version 3 - Porting Servo Code</h2>
+            <p>My Servo code from homework 4 worked great, but it was made for the Metro, not the ESP32. Since the Metro has no built-in Wifi capabilities, I had to use the ESP32 for this project, and that meant porting my homework 4 code. So for this step, I focused only on getting my old AC timer to work - no fancy internet stuff for now. I wired the PWM line to pin 13 on the ESP32, ground to GND and Vin to 3V. This gave me pause. When I worked on homework 4 I had a bug where the Servo arm was reacting to my code and pressing the button, but couldn't get the button to press down enough to actually do anything. I found out I had accidentally wired the Servo's Vin to 3V instead of 5V. Wiring to 5V solved the issue. So I was worried that by wiring to 3V on the ESP32, I would get the same result. And worse, the ESP32 has no 5V pin, so I would have to use the Metro if this caused trouble. <br><br>
+            The code for this step is available for download: <a href="assets/code/hw9/hw9_p2/hw9_p2.ino" download>hw9_p2.ino</a>.</p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 4 - 5V from Metro</h2>
+            <p>As I feared, the Servo had trouble pressing the button. I tried increasing degrees, adding press time, but to no avail. I wired up my Metro's 5V to the Servo's Vin, tied the Metro's ground to the Servo's ground and the ESP32's pin 13 to the Servo's PWM line. Finally, I connected the Metro's GND to the ESP's GND to make sure their reference points for ground are identical. The code I used was the same as from the previous step. Here's what the setup looked like: </p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw9_v4_1.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw9_v4_2.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw9_v4_3.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw9_v4_4.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>This setup also gave me pause, as the Servo was now powered by 5V, but still connected to the ESP's PWM. I thought, perhaps the PWM would also need a 5V range for this to work. But this time the setup worked and the button press was successful. I ran it a few extra times to make sure. Then I recalled that the Metro is also a 3V-based chip and that its PWM output would have to be in the 3V range, not 5V, so this should work - and indeed it does.</p></div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <section>
               <video autoplay muted loop id="bg-video">
-                <source src="assets/images/hw8_v2_2.mp4" type="video/mp4"/>
+                <source src="assets/images/hw9_v4.mp4" type="video/mp4"/>
               </video>
           </section>
         </div>
       </div>
       <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 5 - <i>AC</i>ontrol, Bringing it All Together</h2>
+            <p>For version 5 my job was to merge the Servo code and the networking code to remote control my AC. I used the networking code as a template and started making changes: I imported the relevant Servo library, defined the global variables and copied over the "press()" function. Then the interesting part: I changed the variable name from LED_STATUS to AC_STATUS. Where the LED would turn on or off, I made calls to the press() function. The html code also needed slight adjustment for the new variable name. I burned the code to the device and clicked the "Turn On" button. At first, I was excited to see the button press, but quickly less excited when it wouldn't stop pressing. <br><br>
+            My mistake was that I called press() for any AC_STATUS. What I should've done was call it for every AC_STATUS *change*. To this end I added a new "prev_ac_status" variable. Each time I polled the server for a new status, I compared it to the previous status, then updated the previous status. Here is my fixed code:</p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">// based on template from https://nathanmelenbrink.github.io/intro-dig-fab/09_networking/huzzah1b.html
+
+#include <WiFi.h>                                 // esp32 library
+#include <FirebaseESP32.h>                        // firebase library
+#include <ESP32Servo.h>
+
+#define FIREBASE_HOST "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app/"  // project name address from firebase id
+#define FIREBASE_AUTH "cAdMvfIBB8BVwihI1A19RnIe37LriNSuFVNClYgs"                          // secret key generated from firebase
+#define WIFI_SSID "my_ssid"                                // input your home or public wifi name
+#define WIFI_PASSWORD "my_pass"                            // password of wifi ssid
+
+Servo servo;
+String fireString = "";                                          // AC status received from firebase
+String prev_ac_status = "OFF";
+
+//Define FirebaseESP32 data object
+FirebaseData firebaseData;
+
+void press() {
+  // scan from 40 to 10 degrees, ie press down
+  for(int angle = 40; angle &gt; 10; angle--)    
+  {                                
+    servo.write(angle);           
+    delay(15);       
+  }
+  
+  // hold for 1s
+  delay(1000);
+  
+  // scan from 10 back to 40 degrees, ie let the button go
+  for(int angle = 10; angle &lt; 40; angle++)  
+  {                                  
+    servo.write(angle);               
+    delay(15);                   
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);                          // try to connect with wifi
+
+  Serial.print("Connecting to ");
+  Serial.print(WIFI_SSID);
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+
+  Serial.println();
+  Serial.print("Connected to ");
+  Serial.println(WIFI_SSID);
+  Serial.print("IP Address is : ");
+  Serial.println(WiFi.localIP());                                // print local IP address
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);                  // connect to firebase
+  Firebase.reconnectWiFi(true);
+  Firebase.set(firebaseData, "/AC_STATUS", "OFF");              // set initial string of "OFF"
+  
+  servo.attach(13);
+  servo.write(40);
+}
+
+void loop() {
+  Firebase.get(firebaseData, "/AC_STATUS");                     // get AC status input from firebase
+  fireString = firebaseData.stringData();                        // change to e.g. intData() or boolData()
+  Serial.println(fireString);
+
+  if (!(fireString == "ON" || fireString == "OFF")) {
+    // invalid input
+    Serial.println("Please send ON/OFF");
+  }
+
+  else {
+    // valid input
+    if (fireString != prev_ac_status) {                    // compare the input of AC status received from firebase
+      // toggle required
+      Serial.println("Toggling AC");
+      press();
+    }
+    prev_ac_status = fireString;
+  }
+
+  delay(1000);                                 // not strictly necessary
+}
+          </pre>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Demo</h2>
+            <p>I'm not going to publish the buttons here because I might actually use this and wouldn't want someone waking me up in the middle of the night with a creepy Servo motor sound. But here's me giving it a whirl: </p></div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw9_v5.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>      
+      <br><br><br>
+    </div>
   <footer>
     <div class="container">
       <div class="row">

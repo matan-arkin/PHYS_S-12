@@ -1,12 +1,13 @@
 // based on template from https://nathanmelenbrink.github.io/intro-dig-fab/09_networking/huzzah1b.html
+// NEED TO INSERT PASSWORD AND SSID FOR THIS TO ACTUALLY RUN
 
 #include <WiFi.h>                                 // esp32 library
 #include <FirebaseESP32.h>                        // firebase library
 
 #define FIREBASE_HOST "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app/"  // the project name address from firebase id
 #define FIREBASE_AUTH "cAdMvfIBB8BVwihI1A19RnIe37LriNSuFVNClYgs"                          // the secret key generated from firebase
-#define WIFI_SSID "Arkin-Fox"                                // input your home or public wifi name
-#define WIFI_PASSWORD "086a0a2170b4"                            // password of wifi ssid
+#define WIFI_SSID "my_ssid"                                   // input your home or public wifi name
+#define WIFI_PASSWORD "my_password"                           // password of wifi ssid
 
 String fireString = "";                                          // led status received from firebase
 int ledpin = 13;                                                 // built-in LED
