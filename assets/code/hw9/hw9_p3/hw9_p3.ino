@@ -6,8 +6,8 @@
 
 #define FIREBASE_HOST "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app/"  // the project name address from firebase id
 #define FIREBASE_AUTH "cAdMvfIBB8BVwihI1A19RnIe37LriNSuFVNClYgs"                          // the secret key generated from firebase
-#define WIFI_SSID "Arkin-Fox"                                // input your home or public wifi name
-#define WIFI_PASSWORD "086a0a2170b4"                            // password of wifi ssid
+#define WIFI_SSID "myssid"                                // input your home or public wifi name
+#define WIFI_PASSWORD "mypass"                            // password of wifi ssid
 
 Servo servo;
 String fireString = "";                                          // AC status received from firebase

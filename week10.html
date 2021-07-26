@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 10</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 10</em><br> Machine Building </h4>
+            <h2>Tea Vending Machine - Background</h2>
+            <p>I've got lots of big tea fans at home. About time to capitalize on that. <br><br>
+            This week's project is a prototype for a tea vending machine. Certainly, in order to keep the desperate tea drinkers at bay, a finished product would involve better security and a payment system. But this prototype is a good start. With it, the user can "get tea" at the click of a button over a web GUI. The machine will spit out exactly one tea packet.</p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 1 - Get the Stepper Motor Moving</h2>
+            <p>I started off by followed the <a href="https://nathanmelenbrink.github.io/intro-dig-fab/10_machines/steppers.html">stepper motor tutorial</a>. I wired the DRV8834, the 0.4A stepper and the ESP32 pretty much identical to the tutorial - besides switching pins 12 and 13 (and applying the same change to the code). </p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw10_1.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw10_2.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw10_3.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw10_4.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>The code is available for download <a href="assets/code/hw10/hw10_v1/hw10_v1.ino" download>here</a>. It selects a location, a speed and an accelaration at random, once every second, and executes a corresponding move. Then it waits one second and repeats. All this using calls to the AccelStepper library:</p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw10v1.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 2 - Running Continuously</h2>
+            <p>Rather than working to return my motor to the "home" position at the beginning of each run, I faced the opposite problem: I didn't want my motor returning to the "angle=0" position every time it fed out a packet. The challenge was: how to utilize the AccelStepper library to run continuously. I could store the angle in a variable and increment that every time I wanted to move, but that variable would eventually overflow. When is eventually? Back of the envolope calculations say it would overflow after approximately 4 billion / 10,000 ~= 400,000 tea packets. With the tea consumption in this household, that woudn't work. The alternative approach I found was the runSpeed() function, which, when called repeatidly, runs the stepper motor at the speed set by setSpeed() (and limited by setMaxSpeed()). My v2 code simply turns the stepper motor around forever:</p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">#include &lt;AccelStepper.h&gt;
+
+const int stepPin = 13;
+const int dirPin = 12;
+int next_loc = 0;
+
+// Define a stepper and the pins it will use
+AccelStepper stepper(1, stepPin, dirPin); // initialise accelstepper for a two wire board
+
+void setup()
+{
+  stepper.setMaxSpeed(500);
+  stepper.setSpeed(500);
+}
+
+void loop()
+{
+  stepper.runSpeed();
+}
+          </pre>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 3 - Assembling Machine, Calibration & Basic Web Interface</h2>
+            <p>To build my vending machine, I took a box of tea packets and cut out an opening where the packets would come out of (this part is meant to be cut for easy access). Then I used a mechanical pencil to carve out a hole at the side of the box where my stepper motor would fit. I had to make sure the hole wasn't too high or else the tea packets would be struggling against an upwards incline, but also not too low or else my motor might make contact with the bottom of the box and move the entire construct.</p></div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <img src="assets/images/hw10v3_1.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw10v3_2.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-6">
+          <img src="assets/images/hw10v3_3.jpg" alt="git" width="100%">
+          <br><br>
+          <img src="assets/images/hw10v3_4.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Unfortunately, this didn't quite do the trick. The metalic rod of the stepper was too smooth so there wasn't enough friction to move the packets. To add some friction, I wrapped the rod, experimenting with various cover materials, until I settled on some tape, with the sticky side facing out. This was sticky enough to get the packets moving, but not so sticky as to get stuck on the bottom of the box:</p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <img src="assets/images/hw10v3_5.jpg" alt="git" width="100%">
+        </div>
+        <div class="col-md-7">
+          <img src="assets/images/hw10v3_6.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <img src="assets/images/hw10v3_7.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Next, for remote control, I employed a similar architecture to the one from hw9: connect to the wifi network and start polling a firebase database every 1 second. The ESP code reads the String variable "NEED_TEA" and, if it is set to "YES", reponds by activating the motor for the appropriate amount of time and only afterward setting the variable back to "NO". The ESP code is solely responsible for resetting to "NO" to avoid collisions. Here is that code:</p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">// based on template from https://nathanmelenbrink.github.io/intro-dig-fab/09_networking/huzzah1b.html
+// NEED TO INSERT PASSWORD AND SSID FOR THIS TO ACTUALLY RUN
+
+#include &lt;WiFi.h&gt;                                 // esp32 library
+#include &lt;FirebaseESP32.h&gt;                        // firebase library
+#include &lt;AccelStepper.h&gt;
+
+#define FIREBASE_HOST "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app/"  // the project name address from firebase id
+#define FIREBASE_AUTH "cAdMvfIBB8BVwihI1A19RnIe37LriNSuFVNClYgs"                          // the secret key generated from firebase
+#define WIFI_SSID "myssid"                                   // input your home or public wifi name
+#define WIFI_PASSWORD "mypass"                           // password of wifi ssid
+
+const int stepPin = 13;
+const int dirPin = 12;
+const unsigned long TEADELAY = 8700;
+int next_loc = 0;
+String fireString = "";                                          // received from firebase
+
+//Define FirebaseESP32 data object
+FirebaseData firebaseData;
+
+// Define a stepper and the pins it will use
+AccelStepper stepper(1, stepPin, dirPin); // initialise accelstepper for a two wire board
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);                          // try to connect with wifi
+  Serial.print("Connecting to ");
+  Serial.print(WIFI_SSID);
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+
+  Serial.println();
+  Serial.print("Connected to ");
+  Serial.println(WIFI_SSID);
+  Serial.print("IP Address is : ");
+  Serial.println(WiFi.localIP());                                // print local IP address
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);                  // connect to firebase
+  Firebase.reconnectWiFi(true);
+  Firebase.set(firebaseData, "/NEED_TEA", "NO");              // set initial string of "NO"
+
+  // prep motor speed
+  stepper.setMaxSpeed(500);
+  stepper.setSpeed(500);
+}
+
+void loop() {
+  Firebase.get(firebaseData, "/NEED_TEA");                     // get tea status input from firebase
+  fireString = firebaseData.stringData();                        
+  Serial.print("Got NEED_TEA=");
+  Serial.println(fireString);
+  
+  if (fireString == "YES") {                    // compare the input of tea status received from firebase
+    Serial.println("Getting your tea...");
+    unsigned long start_time = millis();
+    while (millis() - start_time &lt; TEADELAY) {
+      stepper.runSpeed();      
+    }
+    Firebase.set(firebaseData, "/NEED_TEA", "NO");
+  }
+
+  else if (fireString == "NO") {              // compare the input of tea status received from firebase
+    Serial.println("No need for tea. Keep waiting.");
+  }
+
+  else {
+    Serial.println("Please send YES/NO");
+  }
+
+  delay(1000);                                 // not strictly necessary
+}
+          </pre>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>After some experimentation I found that about 8.7 seconds was the right amount of time to run the motor to get exactly one packet out, with the speed setting at 500 and using the 5V power supply:</p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw10v3.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Version 4 - Advanced Web Interface</h2>
+            <p>All that was left was to add a buttoned web interface to allow a user to indirectly manipulate the "NEED_TEA" variable on the database. The html code available for download <a href="week10_web_interface.html" download>here</a> does just that with only one on-click function and one button, all with updated names. To open as a page in a new tab, click  <a href="week10_web_interface.html" target="_blank">here</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw10v4.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Victory sip.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw10v4_1.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br><br>
+
+    </div>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+
+    
+</body>
+</html>

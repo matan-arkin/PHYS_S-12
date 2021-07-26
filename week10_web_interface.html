@@ -1,0 +1,48 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+<title>PHYS S-12: Introduction to Digital Fabrication</title>
+</head>
+
+<body>
+
+	 <button id="get-tea" name="turnon">Get Tea</button>
+
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+	<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-database.js"></script>
+
+	<script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+        apiKey: "AIzaSyCSU4eqfmjl8ct1_muq15jY_HvgewOl5hc",
+        authDomain: "acontroller-aadb8.firebaseapp.com",
+        databaseURL: "https://acontroller-aadb8-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "acontroller-aadb8",
+        storageBucket: "acontroller-aadb8.appspot.com",
+        messagingSenderId: "294278776633",
+        appId: "1:294278776633:web:86f36875c9717fda658ae8"
+    };
+		// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+
+	// Get a database reference to our blog
+	var ref = firebase.database().ref("/");
+
+	// make the buttons call the function below 
+	document.getElementById('get-tea').addEventListener('click', getTea, false);
+
+	function getTea(){
+		console.log("Getting tea...");
+		ref.update({
+			"NEED_TEA": "YES"
+		});
+	}
+</script>
+
+</body>
