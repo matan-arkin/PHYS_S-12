@@ -1,3 +1,5 @@
+#include <SoftwareSerial.h>
+
 const int sampleWindow = 50; // Sample window width in mS (50 mS = 20Hz)
 unsigned int sample;
 
@@ -6,7 +8,7 @@ unsigned int total;
 void setup()
 {
   Serial.begin(9600);
-  analogReadResolution(12);
+  analogReadResolution(10);
 }
 
 

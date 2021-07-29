@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <title>Ncompass - Week 11</title>
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/soft-image.css">
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-grad-school.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+<!--
+    
+TemplateMo 557 Grad School
+
+https://templatemo.com/tm-557-grad-school
+
+-->
+  </head>
+
+<body>
+
+   
+  <!--header-->
+  <header class="main-header clearfix" role="header">
+    <div class="logo">
+      <a href="#"><em>PHYS</em> S12</a>
+    </div>
+    <a href="#menu" class="menu-link"><i class="fa fa-bars"></i></a>
+    <nav id="menu" class="main-nav" role="navigation">
+      <ul class="main-menu">
+        <li><a class="external" href="./index.html#section1">Home</a></li>
+        <li><a class="external" href="./index.html#section2">Why <i style="color: #f5a425">N</i>compass?</a></li>
+        <li class="has-submenu"><a class="external" href="./index.html#section4">How It's Made</a>
+          <ul class="sub-menu">
+            <li><a class="external" href="./week1.html">Intro</a></li>
+            <li><a class="external" href="./week2.html">2D</a></li>
+            <li><a class="external" href="./week3.html">Tools</a></li>
+            <li><a class="external" href="./week4.html">Prototyping</a></li>
+            <li><a class="external" href="./week5.html">Electronics</a></li>
+            <li><a class="external" href="./week6.html">3D Printing</a></li>
+            <li><a class="external" href="./week7.html">Input</a></li>
+            <li><a class="external" href="./week8.html">Output</a></li>
+            <li><a class="external" href="./week9.html">Networking</a></li>
+            <li><a class="external" href="./week10.html">Machines</a></li>
+            <li><a class="external" href="./week11.html">Programming</a></li>
+            <li><a class="external" href="./week12.html">Molding</a></li>
+          </ul>
+        </li>
+        <!-- <li><a href="#section4">Applications</a></li> -->
+        <!-- <li><a href="#section5">Video</a></li> -->
+        <li><a class="external" href="./index.html#section6">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="section video" data-section="section5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h4><em>Week 11</em><br> Programming </h4>
+            <h2>Background</h2>
+            <p>Today's project is a proof of concept for machine learning. The intent was to use an approach similar to the one I would need for my final project (calculate angle of sound directionality from 2 audio inputs). I set out to tackle a slightly simpler problem: left, right or silence. I was able to succesfully set up the two microphones and sample data. When I ran into some trouble generating the model I transitioned to a simpler problem: music or no music, which of course could be done easily without machine learning, but the point was to learn how to use machine learning. I sampled new data, trained a model and imported it to a sketch that should have used that model on the audio input, but after burning to my Metro, the Metro seems to have died - hopefully nothing permanent, though I fear it is...</p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part I - Sampling</h2>
+            <p>The first task is to sample some data which will used for training. I wired 2 microphones to my Metro, placing them as far away from each other as I could and facing the same direction. </p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v1_1.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v1_2.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I wrote code that sampled continuously, but assigned each measurement to a "window number" which incremented every 100ms. This was intended to form the quantum unit of measurement for the AI because it is large enough to minimize "artifact splitting" (where an artifact ends up on the edges of two windows instead of fully contained in one), but small enough to seem continuous to the human eye. Besides "window number," each measurement was also assigned a "Left" or "Right" depending on which microphone it came from. Each measurement and its corresponding labels were printed in a predefined format on one line each. Here is the code: </p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
+
+#include &lt;Adafruit_NeoPixel.h&gt;
+
+#define MICR_PIN          A0
+#define MICL_PIN          A5
+
+const unsigned int SAMPLEWINDOW = 100;   // Represents quantum unit to be considered by machine learning, in milliseconds
+unsigned long start_time = 0;            // Time (in milliseconds) when sampling started
+
+void setup() {
+  Serial.begin(9600);
+  analogReadResolution(10);
+  start_time = millis();
+}
+
+void loop() {
+  unsigned long window_num = (millis() - start_time) / 100;
+  unsigned int sample_left = analogRead(MICL_PIN);
+  unsigned int sample_right = analogRead(MICR_PIN);
+  
+  if (sample_left &lt; 1024 && sample_right &lt; 1024) {      // toss out spurious readings
+    Serial.print("Left: #");
+    Serial.print(window_num);
+    Serial.print(": ");
+    Serial.println(sample_left);
+    Serial.print("Right: #");
+    Serial.print(window_num);
+    Serial.print(": ");
+    Serial.println(sample_right);
+  }
+}
+          </pre>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Here is a video of me testing out the code before sampling. Serial Plotter is intelligently parsing out the information from both microphones while differentiating values from labels: </p></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <section>
+              <video autoplay muted loop id="bg-video">
+                <source src="assets/images/hw11v1.mp4" type="video/mp4"/>
+              </video>
+          </section>
+        </div>
+      </div>
+      <br><br> 
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I sampled a ~3 minute song twice with my speaker placed at opposite ends for session and at equal distances from the microphones. Then I recorded 3 minutes of silence. Here is the setup I used: </p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v1_left.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v1_right.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Here are the files I got from the sampling: <a href="assets/code/hw11/silence.txt" download>silence.txt</a>, <a href="assets/code/hw11/song_left.txt" download>song_left.txt</a> and <a href="assets/code/hw11/song_right.txt" download>song_right.txt</a></p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part II - Training</h2>
+            <p>I followed the <a href="https://www.tensorflow.org/lite/microcontrollers">Tensorflow Lite tutorial</a> for generating a model, exporting it and running on a microcontroller. After uploading my samples and initiating the training, this happened:</p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v2_crash.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br><br>
+      
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part III - Back to Sampling</h2>
+            <p>The samples were far too large. Moreover, the example code provided in the tutorial was far more complicated than I anticipated, probably totalling about 300 lines of dense logic in Python. And I noticed the model they were making expected a single input of type float and a single output of type float. My inputs and outputs were different and far more complicated - with a non-constant, very large number of data points per window; all ints, not floats. <br><br>
+            I knew I had to simplify things. My new plan was: create a Tensorflow Lite model for detecting "music" vs "silence," with only one input and one output that I would convert to floats so they would fit with the existing model generation framework. Each input would be the average of 4 peak-to-peak samples of 25ms each (again, to avoid extreme values which would be seen with a single, 100ms peak-to-peak) - all using one microphone. Here is my revised code for this new sampling scheme: </p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">// Based on neopixel template code
+
+#define MIC_PIN          A0
+
+const unsigned int SAMPLEWINDOW = 25;   // sample for 25ms
+const unsigned int NUMWINDOWS = 4;     // repeat 4 times and average
+
+void setup() {
+  Serial.begin(9600);
+  analogReadResolution(10);
+}
+
+void loop() {
+  int total = 0;
+  for (int i = 0; i &lt; NUMWINDOWS; i++)
+  {
+    // init
+    unsigned long startMillis = millis(); // Start of sample window
+    int peakToPeak = 0;   // peak-to-peak level
+    int signalMax = 0;
+    int signalMin = 1024;
+
+    // collect sample window
+    while (millis() - startMillis &lt; SAMPLEWINDOW)
+    {
+      int sample = analogRead(A0);   //reading DC pin from pin A0
+      if (sample &lt; 1024)  // toss out spurious readings
+      {
+        if (sample &gt; signalMax)
+        {
+          signalMax = sample;  // save just the max levels
+        }
+        else if (sample &lt; signalMin)
+        {
+          signalMin = sample;  // save just the min levels
+        }
+      }
+    }
+    peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
+    total += peakToPeak;
+  }
+  Serial.println(total / NUMWINDOWS);
+}
+          </pre>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part IV - Back to Training</h2>
+            <p>I used the tutorial's Python notebook code on Google Colab. Throughout the process I made many minor changes to the code blocks in the notebook as I followed along, but the most important changes are in this block here: </p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">with open("silence_v4.txt", 'r') as f:
+  x_silent = f.readlines()
+
+# assign silent
+y_silent = [0.0 for a in range(len(x_silent))] # 0.0 = silence
+
+with open("song_v4.txt", 'r') as f:
+  x_song = f.readlines()
+
+# assign song
+y_song = [1.0 for a in range(len(x_song))] # 1.0 = song
+
+# unify to one dataset
+x_values = [float(x) for x in (x_silent + x_song)]
+y_values = y_silent + y_song
+
+# remember how long it is
+assert len(x_values) == len(y_values)
+SAMPLES = len(x_values)
+
+# shuffle it
+dataset = list(zip(x_values, y_values))
+np.random.shuffle(dataset)
+x_values, y_values = zip(*dataset)
+
+# plot our data
+plt.plot(x_values, y_values, 'b.')
+plt.show()
+          </pre>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>With this code I essentially replaced my data with the example's data - all in nearly identical format and into the same variable names. One input and one output, both floats. Obviously these aren't the best settings for the data we are dealing with: music vs no music should be a binary variable, not a float. But again, this was a POC and similicity was key. Once I had this down, changing the format should be much simpler. From this point on, only minor changes were needed to the Python notebook code. <br><br>
+            I proceeded to train the model and run the following diagnostics to measure its performance. I understood "epochs" to be some sort of step in the training process, and you can see in the following plots how the error rate improves as we progress through the epochs: </p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v4_2.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v4_4.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v4_5.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Looking good!</p></div>
+        </div>
+      </div>
+      <br><br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <h2>Part V - Exporting and Running the Model</h2>
+            <p>For the final step, I exported the model first to Tensorflow, then to Tensorflow Lite, which decreases its footprint for microcontrollers. The output was a large C array: </p></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <img src="assets/images/hw11v4_7.jpg" alt="git" width="100%">
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>I was instructed to download the C++ TensorFlow library and open the "Hello World" example code on Arduino IDE, then replace the existing array with the one exported above. <br><br>
+            I also made some modifications to the main file of the example to read in microphone data and print it out: </p></div>
+        </div>
+        <div class="col-md-12 align-self-center">
+          <pre class="prettyprint" style="padding: 2%;">/* Copyright 2020 The TensorFlow Authors. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================*/
+
+#include &lt;TensorFlowLite.h&gt;
+
+#include "main_functions.h"
+
+#include "tensorflow/lite/micro/all_ops_resolver.h"
+#include "constants.h"
+#include "model.h"
+#include "output_handler.h"
+#include "tensorflow/lite/micro/micro_error_reporter.h"
+#include "tensorflow/lite/micro/micro_interpreter.h"
+#include "tensorflow/lite/schema/schema_generated.h"
+#include "tensorflow/lite/version.h"
+
+#define MIC_PIN          A0
+
+const unsigned int SAMPLEWINDOW = 25;   // sample for 25ms
+const unsigned int NUMWINDOWS = 4;     // repeat 4 times and average
+
+// Globals, used for compatibility with Arduino-style sketches.
+namespace {
+tflite::ErrorReporter* error_reporter = nullptr;
+const tflite::Model* model = nullptr;
+tflite::MicroInterpreter* interpreter = nullptr;
+TfLiteTensor* input = nullptr;
+TfLiteTensor* output = nullptr;
+int inference_count = 0;
+
+constexpr int kTensorArenaSize = 2000;
+uint8_t tensor_arena[kTensorArenaSize];
+}  // namespace
+
+// The name of this function is important for Arduino compatibility.
+void setup() {
+  // Set up logging. Google style is to avoid globals or statics because of
+  // lifetime uncertainty, but since this has a trivial destructor it's okay.
+  // NOLINTNEXTLINE(runtime-global-variables)
+  static tflite::MicroErrorReporter micro_error_reporter;
+  error_reporter = &micro_error_reporter;
+
+  // Map the model into a usable data structure. This doesn't involve any
+  // copying or parsing, it's a very lightweight operation.
+  model = tflite::GetModel(g_model);
+  if (model-&gt;version() != TFLITE_SCHEMA_VERSION) {
+    TF_LITE_REPORT_ERROR(error_reporter,
+                          "Model provided is schema version %d not equal "
+                          "to supported version %d.",
+                          model-&gt;version(), TFLITE_SCHEMA_VERSION);
+    return;
+  }
+
+  // This pulls in all the operation implementations we need.
+  // NOLINTNEXTLINE(runtime-global-variables)
+  static tflite::AllOpsResolver resolver;
+
+  // Build an interpreter to run the model with.
+  static tflite::MicroInterpreter static_interpreter(
+      model, resolver, tensor_arena, kTensorArenaSize, error_reporter);
+  interpreter = &static_interpreter;
+
+  // Allocate memory from the tensor_arena for the model's tensors.
+  TfLiteStatus allocate_status = interpreter-&gt;AllocateTensors();
+  if (allocate_status != kTfLiteOk) {
+    TF_LITE_REPORT_ERROR(error_reporter, "AllocateTensors() failed");
+    return;
+  }
+
+  // Obtain pointers to the model's input and output tensors.
+  input = interpreter-&gt;input(0);
+  output = interpreter-&gt;output(0);
+
+  // Keep track of how many inferences we have performed.
+  inference_count = 0;
+
+  Serial.begin(9600);
+  analogReadResolution(10);
+}
+
+// The name of this function is important for Arduino compatibility.
+void loop() {
+  // Calculate an x value to feed into the model. We compare the current
+  // inference_count to the number of inferences per cycle to determine
+  // our position within the range of possible x values the model was
+  // trained on, and use this to calculate a value.
+//  float position = static_cast&lt;float&gt;(inference_count) /
+//                   static_cast&lt;float&gt;(kInferencesPerCycle);
+  
+  int total = 0;
+  for (int i = 0; i &lt; NUMWINDOWS; i++)
+  {
+    // init
+    unsigned long startMillis = millis(); // Start of sample window
+    int peakToPeak = 0;   // peak-to-peak level
+    int signalMax = 0;
+    int signalMin = 1024;
+
+    // collect sample window
+    while (millis() - startMillis &lt; SAMPLEWINDOW)
+    {
+      int sample = analogRead(A0);   //reading DC pin from pin A0
+      if (sample &lt; 1024)  // toss out spurious readings
+      {
+        if (sample &gt; signalMax)
+        {
+          signalMax = sample;  // save just the max levels
+        }
+        else if (sample &lt; signalMin)
+        {
+          signalMin = sample;  // save just the min levels
+        }
+      }
+    }
+    peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
+    total += peakToPeak;
+  }
+  float x = total / NUMWINDOWS;
+  
+  // print out x
+  Serial.print("X = ");
+  Serial.print(x);
+  
+  // Quantize the input from floating-point to integer
+  int8_t x_quantized = x / input-&gt;params.scale + input-&gt;params.zero_point;
+  // Place the quantized input in the model's input tensor
+  input-&gt;data.int8[0] = x_quantized;
+
+  // Run inference, and report any error
+  TfLiteStatus invoke_status = interpreter-&gt;Invoke();
+  if (invoke_status != kTfLiteOk) {
+    TF_LITE_REPORT_ERROR(error_reporter, "Invoke failed on x: %f\n",
+                          static_cast&lt;double&gt;(x));
+    return;
+  }
+
+  // Obtain the quantized output from model's output tensor
+  int8_t y_quantized = output-&gt;data.int8[0];
+  // Dequantize the output from integer to floating-point
+  float y = (y_quantized - output-&gt;params.zero_point) * output-&gt;params.scale;
+
+  // print out y
+  Serial.print(",Y = ");
+  Serial.println(y);
+
+  // Increment the inference_counter, and reset it if we have reached
+  // the total number per cycle
+  inference_count += 1;
+  if (inference_count &gt;= kInferencesPerCycle) inference_count = 0;
+}
+          </pre>
+        </div>
+      </div>
+      <br><br>
+
+      <div class="row">
+        <div class="col-md-12 align-self-center">
+          <div class="left-content">
+            <p>Unfortunately, after burning this to my Metro M0, the board ceased to be recognized by Arduino IDE. I tried restting the device multiple times, restarting the IDE, running different sketches that definitely worked in the past, restarting the computer and even switching cables, but to no avail. I'll  follow up during office hours to debug the problem. Hopefully we can bring it back from the dead :)</p></div>
+        </div>
+      </div>
+      <br><br><br>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p><i class="fa fa-copyright"></i> Copyright 2020 by Grad School  
+           | Design: <a href="https://templatemo.com" rel="sponsored" target="_parent">TemplateMo</a>
+           | Modified by Matan Arkin 2021</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/isotope.min.js"></script>
+    <script src="assets/js/owl-carousel.js"></script>
+    <script src="assets/js/lightbox.js"></script>
+    <script src="assets/js/tabs.js"></script>
+    <script src="assets/js/video.js"></script>
+    <script src="assets/js/slick-slider.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .scroll-to-section').on('click', 'a', function (e) {
+          if($(e.target).hasClass('external')) {
+            return;
+          }
+          e.preventDefault();
+          $('#menu').removeClass('active');
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+    </script>
+
+    
+</body>
+</html>
