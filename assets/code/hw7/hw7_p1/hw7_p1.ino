@@ -1,6 +1,9 @@
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
+#include <driver/adc.h>
 
-const int sampleWindow = 50; // Sample window width in mS (50 mS = 20Hz)
+#define MICPIN A2
+
+const int sampleWindow = 25; // Sample window width in mS
 unsigned int sample;
 
 unsigned int total;
@@ -8,26 +11,28 @@ unsigned int total;
 void setup()
 {
   Serial.begin(9600);
-  analogReadResolution(10);
+  adcAttachPin(MICPIN);
+  analogReadResolution(12);
+  analogSetAttenuation(ADC_0db);
+  adc1_config_width(ADC_WIDTH_12Bit);
 }
 
 
 void loop()
 {
   total = 0;
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 4; i++)
   {
     unsigned long startMillis = millis(); // Start of sample window
     unsigned int peakToPeak = 0;   // peak-to-peak level
 
     unsigned int signalMax = 0;
-    unsigned int signalMin = 1024;
+    unsigned int signalMin = 4096;
 
-    // collect data for 50 mS
     while (millis() - startMillis < sampleWindow)
     {
-      sample = analogRead(A0);   //reading DC pin from pin A0
-      if (sample < 1024)  // toss out spurious readings
+      sample = analogRead(MICPIN);   //reading DC pin from pin A0
+      if (sample < 4096)  // toss out spurious readings
       {
         if (sample > signalMax)
         {
@@ -42,5 +47,5 @@ void loop()
     peakToPeak = signalMax - signalMin;  // max - min = peak-peak amplitude
     total += peakToPeak;
   }
-  Serial.println(total / 10);
+  Serial.println(total / 4);
 }
