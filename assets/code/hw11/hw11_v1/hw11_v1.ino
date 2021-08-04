@@ -1,7 +1,3 @@
-// Based on neopixel template code
-
-#include <Adafruit_NeoPixel.h>
-
 #define MICR_PIN          A0
 #define MICL_PIN          A5
 
@@ -10,7 +6,7 @@ unsigned long start_time = 0;            // Time (in milliseconds) when sampling
 
 void setup() {
   Serial.begin(9600);
-  analogReadResolution(10);
+//  analogReadResolution(10);
   start_time = millis();
 }
 

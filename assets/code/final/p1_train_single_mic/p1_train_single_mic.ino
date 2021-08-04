@@ -5,7 +5,6 @@ const int sampleWindow = 25; // Sample window width in mS
 void setup()
 {
   Serial.begin(9600);
-//  analogReadResolution(10);
 }
 
 
