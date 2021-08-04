@@ -11,7 +11,6 @@ Adafruit_NeoPixel strip(NUMPIXELS, LEDSTRP, NEO_GRB + NEO_KHZ800);
 
 void setup() {
   Serial.begin(250000);
-  pinMode(LED_BUILTIN, OUTPUT);
   strip.begin();            // INITIALIZE NeoPixel strip object
   strip.setBrightness(100); // (max = 255)
   strip.clear();            // Set all pixel colors to 'off'
@@ -52,6 +51,7 @@ void loop() {
       strip.fill(strip.Color(150, 0, 0), 0, 5);
     else
       strip.fill(strip.Color(150, 0, 0), 5, 5);
+    delay(500);
     strip.show();
   }
 }
