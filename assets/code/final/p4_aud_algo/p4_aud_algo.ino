@@ -51,7 +51,7 @@ void loop() {
       strip.fill(strip.Color(150, 0, 0), 0, 5);
     else
       strip.fill(strip.Color(150, 0, 0), 5, 5);
-    delay(500);
     strip.show();
+    delay(500);
   }
 }
