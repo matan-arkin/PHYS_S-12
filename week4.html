@@ -141,8 +141,17 @@ https://templatemo.com/tm-557-grad-school
             <p>I wasn't content blindly using a library, so I read and understood its main write() function. It appears to be a simple wrapper for another function, containing error checking and a mapping from degrees to pulse width (in microS). From this I infer that angle is determined by pulse width in this servo motor. </p>
         </div>
       </div>
-      <div class="col-md-12">
-        <img src="assets/images/servo_write.png" alt="git" width="100%">
+      <div class="col-md-12 align-self-center">
+        <pre class="prettyprint" style="padding: 2%;">void Servo::write(int value)
+{
+  if(value &lt; MIN_PULSE_WIDTH)
+  {  // treat values less than 544 as angles in degrees (valid values in microseconds are handled as microseconds)
+    if(value &lt; 0) value = 0;
+    if(value &gt; 180) value = 180;
+    value = map(value, 0, 180, SERVO_MIN(),  SERVO_MAX());
+  }
+  this->writeMicroseconds(value);
+}       </pre>
       </div>
       <br><br>
       <div class="row">
@@ -152,8 +161,27 @@ https://templatemo.com/tm-557-grad-school
             <p>The writeMicroseconds() function which write() calls contains more error checking and then a final conversion from microS to "ticks" (cpu cycles) before writing that value. </p>
         </div>
       </div>
-      <div class="col-md-12">
-        <img src="assets/images/servo_writeMicroseconds.png" alt="git" width="100%">
+      <div class="col-md-12 align-self-center">
+        <pre class="prettyprint" style="padding: 2%;">void Servo::writeMicroseconds(int value)
+{
+  // calculate and store the values for the given channel
+  byte channel = this-&gt;servoIndex;
+  if( (channel &lt; MAX_SERVOS) )   // ensure channel is valid
+  {
+    if( value &lt; SERVO_MIN() )          // ensure pulse width is valid
+      value = SERVO_MIN();
+    else if( value &gt; SERVO_MAX() )
+      value = SERVO_MAX();
+
+    value = value - TRIM_DURATION;
+    value = usToTicks(value);  // convert to ticks after compensating for interrupt overhead - 12 Aug 2009
+
+    uint8_t oldSREG = SREG;
+    cli();
+    servos[channel].ticks = value;
+    SREG = oldSREG;
+  }
+}       </pre>
       </div>
 
       <div class="row">
@@ -207,6 +235,7 @@ https://templatemo.com/tm-557-grad-school
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?skin=desert"></script>
     <script src="assets/js/isotope.min.js"></script>
     <script src="assets/js/owl-carousel.js"></script>
     <script src="assets/js/lightbox.js"></script>
